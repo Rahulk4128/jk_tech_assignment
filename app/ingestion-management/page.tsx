@@ -1,6 +1,8 @@
 "use client"
-import { Box, Button, Table } from '@chakra-ui/react';
+import { Box, Button, HStack, Table, Skeleton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import PaginationComponent from '../pagesComponents/PaginationComponent';
+import { PageChangeDetails } from '@/helpers/types';
 
 interface IngestionTask {
     id: number;
@@ -13,6 +15,9 @@ interface IngestionTask {
 
 const IngestionManagement = () => {
     const [tasks, setTasks] = useState<IngestionTask[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const pageSize=5;
 
     // Load tasks from local storage on component mount
     useEffect(() => {
@@ -20,6 +25,7 @@ const IngestionManagement = () => {
         if (storedTasks) {
             setTasks(JSON.parse(storedTasks));
         }
+        setLoading(false)
     }, []);
 
     // Function to start a new ingestion task
@@ -33,6 +39,13 @@ const IngestionManagement = () => {
         };
 
         const updatedTasks = [...tasks, newTask];
+        setTasks(updatedTasks);
+        localStorage.setItem('ingestionTasks', JSON.stringify(updatedTasks));
+    };
+
+    // Function to delete an ingestion task
+    const deleteIngestion = (id: number) => {
+        const updatedTasks = tasks.filter(task => task.id !== id);
         setTasks(updatedTasks);
         localStorage.setItem('ingestionTasks', JSON.stringify(updatedTasks));
     };
@@ -65,10 +78,23 @@ const IngestionManagement = () => {
         URL.revokeObjectURL(url);
     };
 
+    const onPageChange = (details: PageChangeDetails) => {
+        setPage(details.page)
+    }
+
+
     return (
-        <Box>
-            <Box p={4}>
-                <Table.Root variant="outline">
+        <Box height={"100%"}>
+            <Box p={4} height={"100%"}>
+                <HStack height={"10%"}>
+                    <Button mt={4} colorScheme="teal" onClick={startNewIngestion}>
+                        Start New Ingestion
+                    </Button>
+                    <Button mt={4} ml={4} colorScheme="green" onClick={downloadCSV}>
+                        Download CSV
+                    </Button>
+                </HStack>
+                <Table.Root variant="outline" m={5}>
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeader>Ingestion Task</Table.ColumnHeader>
@@ -79,25 +105,46 @@ const IngestionManagement = () => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {tasks.map(task => (
-                            <Table.Row key={task.id}>
-                                <Table.Cell>{task.name}</Table.Cell>
-                                <Table.Cell>{task.status}</Table.Cell>
-                                <Table.Cell>{new Date(task.startTime).toLocaleString()}</Table.Cell>
-                                <Table.Cell>{task.endTime ? new Date(task.endTime).toLocaleString() : 'N/A'}</Table.Cell>
-                                <Table.Cell>
-                                    <Button size="sm" colorScheme="blue">View Logs</Button>
-                                </Table.Cell>
-                            </Table.Row>
-                        ))}
+                        {loading ?
+                            [1, 2, 3, 4, 5, 6, 7, 8].map((item, key) => {
+                                return <Table.Row key={item + key} >
+                                    <Table.Cell>
+                                        <Skeleton flex="1" height="5" variant="pulse" />
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Skeleton flex="1" height="5" variant="pulse" />
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Skeleton flex="1" height="5" variant="pulse" />
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Skeleton flex="1" height="5" variant="pulse" />
+                                    </Table.Cell>
+                                </Table.Row>
+                            }) :
+                            !tasks.length ? <Table.Row>
+                                No record found.
+                            </Table.Row> :
+
+                                tasks.slice(((page - 1) * pageSize), (page * pageSize)).map(task => (
+                                    <Table.Row key={task.id}>
+                                        <Table.Cell>{task.name}</Table.Cell>
+                                        <Table.Cell>{task.status}</Table.Cell>
+                                        <Table.Cell>{new Date(task.startTime).toLocaleString()}</Table.Cell>
+                                        <Table.Cell>{task.endTime ? new Date(task.endTime).toLocaleString() : 'N/A'}</Table.Cell>
+                                        <Table.Cell>
+                                            <Button size="sm" colorScheme="blue">View Logs</Button>
+                                            <Button size="sm" colorScheme="red" onClick={() => deleteIngestion(task.id)} ml={2}>
+                                                Delete
+                                            </Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))}
                     </Table.Body>
                 </Table.Root>
-                <Button mt={4} colorScheme="teal" onClick={startNewIngestion}>
-                    Start New Ingestion
-                </Button>
-                <Button mt={4} ml={4} colorScheme="green" onClick={downloadCSV}>
-                    Download CSV
-                </Button>
+                {tasks.length ? <HStack justifyContent={"center"} height={"10%"}>
+                    <PaginationComponent page={page} count={tasks.length} pageSize={pageSize} onPageChange={onPageChange} />
+                </HStack> : <></>}
             </Box>
         </Box>
     );

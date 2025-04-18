@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { SignUpValidationSchema } from "@/utils/validation";
 import { redirect } from "next/navigation";
 import InputComponent from "../pagesComponents/InputComponent";
+import { User } from "@/utils";
 
 
 const SignUp = () => {
@@ -32,14 +33,14 @@ const SignUp = () => {
             });
             return
         }
-        existingUsers.push({ ...data, id: existingUsers.length + 1 });
+        existingUsers.push({ ...data, id: existingUsers.length + 1, role: User });
         localStorage.setItem('users', JSON.stringify(existingUsers));
 
         // Show success message
         toaster.create({
             title: "Account created Successfully.",
             type: "success",
-            duration: 5000,
+            duration: 3000,
         });
         redirect('/login')
     };

@@ -39,3 +39,16 @@ export const SignUpValidationSchema = Yup.object().shape({
 			'Password must contain 8 characters, one uppercase, one lowercase, one number and one special character (!, @, #, $, %, ^, &,*, (, ), , -, _, =, +, {, }, ;, :, <, ., >, and ,)',
 		),
 });
+
+//signup
+export const loginValidationSchema = Yup.object().shape({
+	email: Yup.string()
+		.strict()
+		.trim('The email cannot include leading and trailing spaces')
+		.required('Email is required')
+		.matches(emailRegExp, 'Email is invalid'),
+	password: Yup.string()
+		.strict()
+		.trim('The password cannot include leading and trailing spaces')
+		.required('Password is required'),
+});

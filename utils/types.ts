@@ -1,4 +1,6 @@
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from 'react-hook-form';
+import { Admin } from '@/utils';
+import { User } from '@/utils';
 
 export interface SignUpInputs {
 	name: string;
@@ -8,11 +10,42 @@ export interface SignUpInputs {
 
 export interface InputComponentProps {
 	errorMsg?: string;
-	label?:string;
+	label?: string;
 	required?: boolean;
 	type?: string;
 	name: string;
 	placeholder?: string;
-	register:UseFormRegister<any>;
+	register: UseFormRegister<any>;
+	[key: string]: any;
+}
+
+export interface AuthInitialValue {
+	isAuthenticated: boolean;
+	userLoading: boolean;
+	user: {
+		name: string;
+		email: string;
+		id: number;
+		role: typeof Admin | typeof User;
+	};
+}
+
+export interface LoginInputs {
+	email: string;
+	password: string;
+}
+
+export interface PageChangeDetails {
+	page: number;
+	pageSize: number;
+}
+
+export interface PaginationComponentProps {
+	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '2xs' | 'xs';
+	count: number;
+	pageSize: number;
+	variant?: 'outline' | 'ghost' | 'solid' | 'subtle' | 'surface' | 'plain';
+	onPageChange: (details: PageChangeDetails) => void;
+	page: number;
 	[key: string]: any;
 }

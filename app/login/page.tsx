@@ -1,22 +1,77 @@
-import { Box, Button, Input, Field } from '@chakra-ui/react';
-import Header from '../pagesComponents/Header';
-import Footer from '../pagesComponents/Footer';
+"use client"
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toaster } from "@/components/ui/toaster"
+import { LoginInputs } from "@/utils/types";
+import { yupResolver } from "@hookform/resolvers/yup"
+import { loginValidationSchema } from "@/utils/validation";
+import { redirect } from "next/navigation";
+import InputComponent from "../pagesComponents/InputComponent";
+import { useAppDispatch } from '@/hooks/redux-hooks';
+import { loadUserData } from '@/store/reducers/authSlice';
+import { Admin } from '@/utils';
 
 const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginInputs>(
+        {
+            resolver: yupResolver(loginValidationSchema),
+        }
+    )
+    const dispatch = useAppDispatch();
+
+    const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+        // Save user data to localStorage
+
+        if (data.email === "test@mailinator.com" && data.password === "Admin@123") {
+            dispatch(loadUserData({ name: Admin, ...data, id: 0, role: Admin }))
+            // Show success message
+            toaster.create({
+                title: "Login Successfully.",
+                type: "success",
+                duration: 3000,
+            });
+            redirect('/')
+        }
+
+        const existingUsers = JSON.parse(localStorage.getItem('users') as string) || [];
+
+        const userDetails = existingUsers.find((item: LoginInputs) => item.email === data.email && item.password === data.password);
+
+        if (userDetails) {
+            dispatch(loadUserData(userDetails))
+            // Show success message
+            toaster.create({
+                title: "Login Successfully.",
+                type: "success",
+                duration: 3000,
+            });
+            redirect('/')
+        } else {
+            toaster.create({
+                title: "Please check your email and password.",
+                type: "error",
+                duration: 5000,
+            });
+        }
+
+
+
+    };
     return (
-        <Box>
-            <Box p={4}>
-                <Field.Root>
-                    <Field.Label>Email</Field.Label>
-                    <Input type="email" placeholder="Enter your email" />
-                </Field.Root>
-                <Field.Root mt={4}>
-                    <Field.Label>Password</Field.Label>
-                    <Input type="password" placeholder="Enter your password" />
-                </Field.Root>
-                <Button mt={4} colorScheme="teal">Login</Button>
+        <Flex height={"100%"} justifyContent={"center"} alignItems={"center"}>
+            <Box p={4} width={"40%"}>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                    <InputComponent required={true} errorMsg={errors.email?.message} label={"Email"} register={register} name={"email"} type={"email"} placeholder="Enter your email" />
+
+                    <InputComponent required={true} errorMsg={errors.password?.message} label={"Password"} register={register} name={"password"} type={"password"} placeholder="Enter your password" />
+                    <Button mt={4} colorScheme="teal" type={"submit"}>Login</Button>
+                </form>
             </Box>
-        </Box>
+        </Flex>
     );
 };
 

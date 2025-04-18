@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from './reducers/authSlice';
 import { logoutAction } from './actions/authAction';
+import { qaReducer } from './reducers/qaSlice';
 
 const appReducer = combineReducers({
 	auth: authSlice.reducer,
+	qa: qaReducer,
 });
 
 const rootReducer = (

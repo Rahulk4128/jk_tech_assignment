@@ -46,7 +46,7 @@ const SignUp = () => {
     };
     console.log({ errors })
     return (
-        <Flex height={"100%"} justifyContent={"center"} alignItems={"center"}>
+        <Flex height={"100%"} justifyContent={"center"} alignItems={"center"} suppressHydrationWarning>
             <Box p={4} width={"40%"}>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     <InputComponent required={true} errorMsg={errors.name?.message} label={"Name"} register={register} name={"name"} type={"text"} placeholder="Enter your name" />

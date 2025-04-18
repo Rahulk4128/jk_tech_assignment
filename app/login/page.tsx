@@ -68,7 +68,7 @@ const Login = () => {
 
     };
     return (
-        <Flex height={"100%"} justifyContent={"center"} alignItems={"center"}>
+        <Flex height={"100%"} justifyContent={"center"} alignItems={"center"} suppressHydrationWarning>
             <Box p={4} width={"40%"}>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                     <InputComponent required={true} errorMsg={errors.email?.message} label={"Email"} register={register} name={"email"} type={"email"} placeholder="Enter your email" />

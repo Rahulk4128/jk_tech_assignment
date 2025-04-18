@@ -84,7 +84,7 @@ const IngestionManagement = () => {
 
 
     return (
-        <Box height={"100%"}>
+        <Box height={"100%"} suppressHydrationWarning>
             <Box p={4} height={"100%"}>
                 <HStack height={"10%"}>
                     <Button mt={4} colorScheme="teal" onClick={startNewIngestion}>

@@ -1,6 +1,4 @@
 import { Box, Button, Input, Table } from '@chakra-ui/react';
-import Header from '../pagesComponents/Header';
-import Footer from '../pagesComponents/Footer';
 
 const DocumentManagement = () => {
     return (

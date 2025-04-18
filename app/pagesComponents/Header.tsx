@@ -3,7 +3,7 @@ import { Flex, Heading, HStack, Avatar, Menu, Portal, Box, Button } from '@chakr
 import { MdLogout } from "react-icons/md";
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks';
-import { Admin, navOption } from '@/utils';
+import { Admin, navOption } from '@/helpers';
 
 const Header = () => {
     const isAuthenticate = useAppSelector(state => state.auth.isAuthenticated);

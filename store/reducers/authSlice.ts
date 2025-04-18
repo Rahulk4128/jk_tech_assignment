@@ -1,4 +1,4 @@
-import { AuthInitialValue } from '@/utils/types';
+import { AuthInitialValue } from '@/helpers/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AuthInitialValue = {

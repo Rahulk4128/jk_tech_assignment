@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
-import { Admin } from '@/utils';
-import { User } from '@/utils';
+import { Admin } from '@/helpers';
+import { User } from '@/helpers';
 
 export interface SignUpInputs {
 	name: string;

@@ -1,7 +1,7 @@
 import React from 'react'
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { Pagination, ButtonGroup, IconButton, HStack } from '@chakra-ui/react';
-import { PaginationComponentProps } from '@/utils/types';
+import { PaginationComponentProps } from '@/helpers/types';
 
 function PaginationComponent({ size, count,page, pageSize, variant, onPageChange, ...rest }: PaginationComponentProps) {
     return (

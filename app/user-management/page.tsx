@@ -2,9 +2,9 @@
 "use client"
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Table, Skeleton, HStack } from '@chakra-ui/react';
-import { Admin, roleOptions, User, userManagementTableHeaders } from '@/utils';
+import { Admin, roleOptions, User, userManagementTableHeaders } from '@/helpers';
 import { AiTwotoneDelete } from "react-icons/ai";
-import { AuthInitialValue, PageChangeDetails } from '@/utils/types';
+import { AuthInitialValue, PageChangeDetails } from '@/helpers/types';
 import { toaster } from '@/components/ui/toaster';
 import PaginationComponent from '../pagesComponents/PaginationComponent';
 
@@ -91,7 +91,7 @@ const UserManagement = () => {
         <Box suppressHydrationWarning height={"100%"}>
             <Box p={4} height={"100%"}>
                 {/* <Input placeholder="Search by name or email" mb={4} /> */}
-                <Table.Root variant="outline" mt={4} height={"90%"}>
+                <Table.Root variant="outline" mt={4}>
                     <Table.Header>
                         <Table.Row>
                             {
@@ -122,33 +122,36 @@ const UserManagement = () => {
                                     </Table.Row>
                                 })
                                 :
-                                state['userList'].slice(((state['page'] - 1) * state['pageSize']), (state['page'] * state['pageSize'])).map((item: AuthInitialValue['user'], key: number) => {
-                                    return <Table.Row key={item.email + key}>
-                                        <Table.Cell>{item.name}</Table.Cell>
-                                        <Table.Cell>{item.email}</Table.Cell>
-                                        <Table.Cell>
-                                            <select name={`role_${item.id}`} id={`role_${item.id}`} onChange={(e) => onRoleChange(e, item)} defaultValue={item.role}>
-                                                {
-                                                    roleOptions.map((item, index) => {
-                                                        return <option key={index} value={item.value}>{item.label}</option>
-                                                    })
-                                                }
-                                            </select>
+                                !state['userList'].length ? <Table.Row>
+                                    No record found.
+                                </Table.Row> :
+                                    state['userList'].slice(((state['page'] - 1) * state['pageSize']), (state['page'] * state['pageSize'])).map((item: AuthInitialValue['user'], key: number) => {
+                                        return <Table.Row key={item.email + key}>
+                                            <Table.Cell>{item.name}</Table.Cell>
+                                            <Table.Cell>{item.email}</Table.Cell>
+                                            <Table.Cell>
+                                                <select name={`role_${item.id}`} id={`role_${item.id}`} onChange={(e) => onRoleChange(e, item)} defaultValue={item.role}>
+                                                    {
+                                                        roleOptions.map((item, index) => {
+                                                            return <option key={index} value={item.value}>{item.label}</option>
+                                                        })
+                                                    }
+                                                </select>
 
-                                        </Table.Cell>
-                                        <Table.Cell>
-                                            <AiTwotoneDelete cursor={"pointer"} onClick={() => {
-                                                onDeleteIconClick(item.id)
-                                            }} />
-                                        </Table.Cell>
-                                    </Table.Row>
-                                })
+                                            </Table.Cell>
+                                            <Table.Cell>
+                                                <AiTwotoneDelete cursor={"pointer"} onClick={() => {
+                                                    onDeleteIconClick(item.id)
+                                                }} />
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    })
                         }
                     </Table.Body>
                 </Table.Root>
-                <HStack  justifyContent={"center"} height={"10%"}>
+                {state['userList'].length ? <HStack justifyContent={"center"} height={"10%"}>
                     <PaginationComponent page={state['page']} count={state['userList'].length} pageSize={state['pageSize']} onPageChange={onPageChange} />
-                </HStack>
+                </HStack> : <></>}
             </Box>
         </Box>
     );

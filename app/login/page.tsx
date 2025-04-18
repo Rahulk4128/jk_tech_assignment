@@ -2,14 +2,14 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toaster } from "@/components/ui/toaster"
-import { LoginInputs } from "@/utils/types";
+import { LoginInputs } from "@/helpers/types";
 import { yupResolver } from "@hookform/resolvers/yup"
-import { loginValidationSchema } from "@/utils/validation";
+import { loginValidationSchema } from "@/helpers/validation";
 import { redirect } from "next/navigation";
 import InputComponent from "../pagesComponents/InputComponent";
 import { useAppDispatch } from '@/hooks/redux-hooks';
 import { loadUserData } from '@/store/reducers/authSlice';
-import { Admin } from '@/utils';
+import { Admin } from '@/helpers';
 
 const Login = () => {
     const {

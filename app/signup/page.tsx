@@ -2,12 +2,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster"
-import { SignUpInputs } from "@/utils/types";
+import { SignUpInputs } from "@/helpers/types";
 import { yupResolver } from "@hookform/resolvers/yup"
-import { SignUpValidationSchema } from "@/utils/validation";
+import { SignUpValidationSchema } from "@/helpers/validation";
 import { redirect } from "next/navigation";
 import InputComponent from "../pagesComponents/InputComponent";
-import { User } from "@/utils";
+import { User } from "@/helpers";
 
 
 const SignUp = () => {

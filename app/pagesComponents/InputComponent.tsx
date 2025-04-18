@@ -1,4 +1,4 @@
-import { InputComponentProps } from '@/utils/types'
+import { InputComponentProps } from '@/helpers/types'
 import { Field, Input } from '@chakra-ui/react'
 import React from 'react'
 

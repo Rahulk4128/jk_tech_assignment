@@ -21,7 +21,7 @@ export interface InputComponentProps {
 
 export interface AuthInitialValue {
 	isAuthenticated: boolean;
-	userLoading: boolean;
+	userLoading: boolean | null;
 	user: {
 		name: string;
 		email: string;

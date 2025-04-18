@@ -6,10 +6,12 @@ import Header from './Header';
 import Footer from './Footer';
 import { Provider } from 'react-redux';
 import store from '@/store';
+import Loader from './Loader';
 
 export default function CommonLayout({ children }: { children?: React.ReactNode; }) {
     return (
         <Provider store={store}>
+            <Loader />
             <Flex direction="column" height="100vh" suppressHydrationWarning>
                 <Header />
                 <Box height={"80%"}>

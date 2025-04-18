@@ -123,7 +123,7 @@ const UserManagement = () => {
                                 })
                                 :
                                 !state['userList'].length ? <Table.Row>
-                                    No record found.
+                                   <Table.Cell> No record found.</Table.Cell>
                                 </Table.Row> :
                                     state['userList'].slice(((state['page'] - 1) * state['pageSize']), (state['page'] * state['pageSize'])).map((item: AuthInitialValue['user'], key: number) => {
                                         return <Table.Row key={item.email + key}>

@@ -94,7 +94,7 @@ const IngestionManagement = () => {
                         Download CSV
                     </Button>
                 </HStack>
-                <Table.Root variant="outline" m={5}>
+                <Table.Root variant="outline" mt={5}>
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeader>Ingestion Task</Table.ColumnHeader>
@@ -123,7 +123,7 @@ const IngestionManagement = () => {
                                 </Table.Row>
                             }) :
                             !tasks.length ? <Table.Row>
-                                No record found.
+                              <Table.Cell> No record found.</Table.Cell>
                             </Table.Row> :
 
                                 tasks.slice(((page - 1) * pageSize), (page * pageSize)).map(task => (

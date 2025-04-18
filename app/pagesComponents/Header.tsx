@@ -1,17 +1,20 @@
 import React from 'react';
-import { Flex, Heading, HStack, Avatar, Menu, Portal, Box, Button } from '@chakra-ui/react';
+import { Flex, Heading, HStack, Avatar, Menu, Portal, Box } from '@chakra-ui/react';
 import { MdLogout } from "react-icons/md";
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks';
 import { Admin, navOption } from '@/helpers';
+import { redirect } from "next/navigation";
 
 const Header = () => {
     const isAuthenticate = useAppSelector(state => state.auth.isAuthenticated);
     const name = useAppSelector(state => state.auth.user.name);
     const role = useAppSelector(state => state.auth.user.role);
     const dispatch = useAppDispatch();
+
     const onLogoutBtnClick = () => {
         dispatch({ type: "auth/logout" })
+        redirect('/')
     }
     return (
         <Flex as="header" bg="teal.500" p={4} color="white" justify="space-between" height={"10%"}>

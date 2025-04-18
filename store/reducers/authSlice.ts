@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AuthInitialValue = {
 	isAuthenticated: false,
-	userLoading: true,
+	userLoading: null,
 	user: {
 		name: '',
 		email: '',
@@ -24,10 +24,22 @@ const authSlice = createSlice({
 					...state.user,
 					...action.payload,
 				},
-				userLoading: false,
+				userLoading:false
+			};
+		},
+		handleUserLoading(
+			state,
+			action: PayloadAction<AuthInitialValue['userLoading']>,
+		) {
+			return {
+				...state,
+				user: {
+					...state.user,
+					userLoading: action.payload,
+				},
 			};
 		},
 	},
 });
-export const { loadUserData } = authSlice.actions;
+export const { loadUserData, handleUserLoading } = authSlice.actions;
 export default authSlice;

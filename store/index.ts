@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from './reducers/authSlice';
+import { logoutAction } from './actions/authAction';
 
 const appReducer = combineReducers({
 	auth: authSlice.reducer,
@@ -10,6 +11,8 @@ const rootReducer = (
 	action: any,
 ) => {
 	if (action.type === 'auth/logout') {
+		localStorage.removeItem("token")
+		logoutAction()
 		state = undefined; // Reset all slices
 	}
 	return appReducer(state, action);

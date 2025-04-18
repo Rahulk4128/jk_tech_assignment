@@ -50,6 +50,9 @@ const DocumentManagement = () => {
         const storedDocuments = localStorage.getItem('documents');
         if (storedDocuments) {
             setState((prev) => ({ ...prev, document: JSON.parse(storedDocuments), loading: false }))
+        }else{
+            setState((prev) => ({ ...prev, document: [], loading: false }))
+
         }
     }, []);
 
@@ -170,7 +173,7 @@ const DocumentManagement = () => {
                                 </Table.Row>
                             }) :
                             !state['document'].length ? <Table.Row>
-                                No record found.
+                               <Table.Cell> No record found.</Table.Cell>
                             </Table.Row> :
                                 state['document'].slice(((state['page'] - 1) * state['pageSize']), (state['page'] * state['pageSize'])).map(doc => (
                                     <Table.Row key={doc.id}>

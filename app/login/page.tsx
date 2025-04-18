@@ -9,7 +9,9 @@ import { redirect } from "next/navigation";
 import InputComponent from "../pagesComponents/InputComponent";
 import { useAppDispatch } from '@/hooks/redux-hooks';
 import { loadUserData } from '@/store/reducers/authSlice';
+import { loginAction } from '@/store/actions/authAction';
 import { Admin } from '@/helpers';
+
 
 const Login = () => {
     const {
@@ -27,13 +29,15 @@ const Login = () => {
         // Save user data to localStorage
 
         if (data.email === "test@mailinator.com" && data.password === "Admin@123") {
-            dispatch(loadUserData({ name: Admin, ...data, id: 0, role: Admin }))
+            dispatch(loadUserData({ name: Admin, email: "test@mailinator.com", id: 0, role: Admin }))
             // Show success message
             toaster.create({
                 title: "Login Successfully.",
                 type: "success",
                 duration: 3000,
             });
+            localStorage.setItem("token","0")
+            loginAction(0)
             redirect('/')
         }
 
@@ -49,6 +53,8 @@ const Login = () => {
                 type: "success",
                 duration: 3000,
             });
+            localStorage.setItem("token",userDetails.id)
+            loginAction(userDetails.id)
             redirect('/')
         } else {
             toaster.create({

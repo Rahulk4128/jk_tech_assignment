@@ -1,12 +1,14 @@
 import React from 'react';
-import { Flex, Heading, HStack, Avatar, Menu, Portal, Box } from '@chakra-ui/react';
+import { Flex, Heading, HStack, Avatar, Menu, Portal, Box, Text } from '@chakra-ui/react';
 import { MdLogout } from "react-icons/md";
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks';
 import { Admin, navOption } from '@/helpers';
 import { redirect } from "next/navigation";
+import { usePathname } from 'next/navigation'
 
 const Header = () => {
+    const pathname = usePathname()
     const isAuthenticate = useAppSelector(state => state.auth.isAuthenticated);
     const name = useAppSelector(state => state.auth.user.name);
     const role = useAppSelector(state => state.auth.user.role);
@@ -51,9 +53,15 @@ const Header = () => {
                                         </Menu.Root>
                                         :
                                         item.label !== "User  Management" ?
-                                            <Link href={item.path}>{item.label}</Link>
+                                            <Link href={item.path}>
+                                                <Text textDecoration={pathname === item.path ? "underline" : ""}>
+                                                    {item.label}
+                                                </Text>
+                                            </Link>
                                             : role === Admin ?
-                                                <Link href={item.path}>{item.label}</Link>
+                                                <Link href={item.path}><Text textDecoration={pathname === item.path ? "underline" : ""}>
+                                                    {item.label}
+                                                </Text></Link>
                                                 : <></>
                                     : <></>
                             }

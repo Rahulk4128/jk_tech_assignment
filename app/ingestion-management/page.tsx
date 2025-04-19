@@ -3,6 +3,7 @@ import { Box, Button, HStack, Table, Skeleton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import PaginationComponent from '../pagesComponents/PaginationComponent';
 import { PageChangeDetails } from '@/helpers/types';
+import { Tooltip } from "@/components/ui/tooltip"
 
 interface IngestionTask {
     id: number;
@@ -17,7 +18,7 @@ const IngestionManagement = () => {
     const [tasks, setTasks] = useState<IngestionTask[]>([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
-    const pageSize=5;
+    const pageSize = 5;
 
     // Load tasks from local storage on component mount
     useEffect(() => {
@@ -123,7 +124,7 @@ const IngestionManagement = () => {
                                 </Table.Row>
                             }) :
                             !tasks.length ? <Table.Row>
-                              <Table.Cell> No record found.</Table.Cell>
+                                <Table.Cell> No record found.</Table.Cell>
                             </Table.Row> :
 
                                 tasks.slice(((page - 1) * pageSize), (page * pageSize)).map(task => (
@@ -133,7 +134,9 @@ const IngestionManagement = () => {
                                         <Table.Cell>{new Date(task.startTime).toLocaleString()}</Table.Cell>
                                         <Table.Cell>{task.endTime ? new Date(task.endTime).toLocaleString() : 'N/A'}</Table.Cell>
                                         <Table.Cell>
-                                            <Button size="sm" colorScheme="blue">View Logs</Button>
+                                            <Tooltip content={"This feature is coming soon."}>
+                                                <Button size="sm" colorScheme="blue">View Logs</Button>
+                                            </Tooltip>
                                             <Button size="sm" colorScheme="red" onClick={() => deleteIngestion(task.id)} ml={2}>
                                                 Delete
                                             </Button>
